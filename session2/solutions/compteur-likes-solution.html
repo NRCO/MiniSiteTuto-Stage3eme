@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SOLUTION - Compteur de Likes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .conteneur {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .article {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .article-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .auteur {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .date {
+            color: #888;
+            font-size: 0.85em;
+        }
+
+        .article h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .article p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3em;
+        }
+
+        .actions {
+            display: flex;
+            gap: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-like {
+            color: #666;
+        }
+
+        .btn-like:hover {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .btn-like.active {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-dislike {
+            color: #666;
+        }
+
+        .btn-dislike:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .btn-dislike.active {
+            background-color: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+
+        .icone {
+            font-size: 1.3em;
+        }
+
+        .success-badge {
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="conteneur">
+
+        <h1>Système de Likes (SOLUTION)</h1>
+
+        <article class="article">
+            <span class="success-badge">SOLUTION COMPLÈTE</span>
+
+            <div class="article-header">
+                <div class="avatar">🎮</div>
+                <div>
+                    <div class="auteur">GameZone</div>
+                    <div class="date">Il y a 2 heures</div>
+                </div>
+            </div>
+
+            <h2>GTA 6 : Le trailer explose les records !</h2>
+            <div class="article-image">🎬</div>
+            <p>
+                Le premier trailer de GTA 6 a battu tous les records YouTube
+                avec plus de 90 millions de vues en 24 heures !
+            </p>
+
+            <div class="actions">
+                <button class="btn-action btn-like" data-article="1">
+                    <span class="icone">❤️</span>
+                    <span class="compteur">42</span>
+                </button>
+
+                <button class="btn-action btn-dislike" data-article="1">
+                    <span class="icone">👎</span>
+                    <span class="compteur">3</span>
+                </button>
+            </div>
+        </article>
+
+        <article class="article">
+            <div class="article-header">
+                <div class="avatar">🕹️</div>
+                <div>
+                    <div class="auteur">GameZone</div>
+                    <div class="date">Il y a 5 heures</div>
+                </div>
+            </div>
+
+            <h2>Minecraft 2.0 : La mise à jour de l'année ?</h2>
+            <div class="article-image" style="background: linear-gradient(135deg, #8B4513 0%, #228B22 100%);">⛏️</div>
+            <p>
+                Mojang a annoncé une mise à jour massive pour Minecraft
+                avec de nouveaux biomes, mobs et mécaniques de jeu.
+            </p>
+
+            <div class="actions">
+                <button class="btn-action btn-like" data-article="2">
+                    <span class="icone">❤️</span>
+                    <span class="compteur">128</span>
+                </button>
+
+                <button class="btn-action btn-dislike" data-article="2">
+                    <span class="icone">👎</span>
+                    <span class="compteur">5</span>
+                </button>
+            </div>
+        </article>
+
+    </div>
+
+    <script>
+        // ===========================================
+        // SOLUTION COMPLÈTE
+        // ===========================================
+
+        let boutonsLike = document.querySelectorAll(".btn-like");
+        let boutonsDislike = document.querySelectorAll(".btn-dislike");
+
+        // --- LIKES ---
+        boutonsLike.forEach(function(bouton) {
+            bouton.addEventListener("click", function() {
+
+                // SOLUTION A : Récupérer le compteur
+                let compteur = bouton.querySelector(".compteur");
+
+                // SOLUTION B : Récupérer la valeur
+                let valeur = parseInt(compteur.textContent);
+
+                // SOLUTION C : Augmenter de 1
+                valeur = valeur + 1;
+
+                // SOLUTION D : Mettre à jour l'affichage
+                compteur.textContent = valeur;
+
+                // SOLUTION E : Ajouter la classe active
+                bouton.classList.add("active");
+
+                // BONUS : Désactiver le dislike
+                let articleId = bouton.getAttribute("data-article");
+                let btnDislike = document.querySelector('.btn-dislike[data-article="' + articleId + '"]');
+                btnDislike.classList.remove("active");
+            });
+        });
+
+        // --- DISLIKES ---
+        boutonsDislike.forEach(function(bouton) {
+            bouton.addEventListener("click", function() {
+
+                // SOLUTION F : Même logique mais on diminue
+                let compteur = bouton.querySelector(".compteur");
+                let valeur = parseInt(compteur.textContent);
+
+                valeur = valeur + 1;  // On AUGMENTE le compteur de dislikes
+
+                // BONUS : Empêcher les valeurs négatives
+                if (valeur >= 0) {
+                    compteur.textContent = valeur;
+                }
+
+                bouton.classList.add("active");
+
+                // BONUS : Désactiver le like
+                let articleId = bouton.getAttribute("data-article");
+                let btnLike = document.querySelector('.btn-like[data-article="' + articleId + '"]');
+                btnLike.classList.remove("active");
+            });
+        });
+    </script>
+
+</body>
+</html>

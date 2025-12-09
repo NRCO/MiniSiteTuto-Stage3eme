@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice JavaScript - Compteur de Likes</title>
+    <style>
+        /* ===========================================
+           EXERCICE : COMPTEUR DE LIKES
+           ===========================================
+
+           Tu vas créer un système de likes comme sur
+           les réseaux sociaux (YouTube, Instagram...).
+
+           =========================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* --- CONTENEUR PRINCIPAL --- */
+        .conteneur {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- TITRE --- */
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        /* --- CARTE D'ARTICLE --- */
+        .article {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .article-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .auteur {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .date {
+            color: #888;
+            font-size: 0.85em;
+        }
+
+        .article h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .article p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* --- IMAGE DE L'ARTICLE --- */
+        .article-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3em;
+        }
+
+        /* --- BARRE D'ACTIONS --- */
+        .actions {
+            display: flex;
+            gap: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        /* --- BOUTONS LIKE/DISLIKE --- */
+        .btn-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.05);
+        }
+
+        /* Bouton Like */
+        .btn-like {
+            color: #666;
+        }
+
+        .btn-like:hover {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .btn-like.active {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            color: white;
+        }
+
+        /* Bouton Dislike */
+        .btn-dislike {
+            color: #666;
+        }
+
+        .btn-dislike:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .btn-dislike.active {
+            background-color: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+
+        /* Icône dans les boutons */
+        .icone {
+            font-size: 1.3em;
+        }
+
+        /* --- CARTE D'INSTRUCTIONS --- */
+        .instructions {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .instructions h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .instructions code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        /* --- MESSAGE DE SUCCÈS --- */
+        .message-succes {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .message-succes.visible {
+            display: block;
+            animation: apparition 0.5s ease;
+        }
+
+        @keyframes apparition {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="conteneur">
+
+        <h1>Système de Likes</h1>
+
+        <!-- INSTRUCTIONS -->
+        <div class="instructions">
+            <h2>Exercice : Créer un compteur de likes</h2>
+            <ol>
+                <li>Quand on clique sur <strong>Like</strong>, le compteur augmente de 1</li>
+                <li>Quand on clique sur <strong>Dislike</strong>, le compteur diminue de 1</li>
+                <li>Le bouton cliqué devient coloré (classe "active")</li>
+                <li><strong>BONUS :</strong> On ne peut pas liker ET disliker en même temps !</li>
+            </ol>
+        </div>
+
+        <!-- ARTICLE 1 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="avatar">🎮</div>
+                <div>
+                    <div class="auteur">GameZone</div>
+                    <div class="date">Il y a 2 heures</div>
+                </div>
+            </div>
+
+            <h2>GTA 6 : Le trailer explose les records !</h2>
+            <div class="article-image">🎬</div>
+            <p>
+                Le premier trailer de GTA 6 a battu tous les records YouTube
+                avec plus de 90 millions de vues en 24 heures ! Vice City
+                n'a jamais été aussi belle.
+            </p>
+
+            <!-- BOUTONS LIKE/DISLIKE -->
+            <div class="actions">
+                <!--
+                    Chaque bouton a :
+                    - Une classe pour le style (btn-like, btn-dislike)
+                    - Un data-article pour identifier l'article
+                    - Un span avec la classe "compteur" pour afficher le nombre
+                -->
+                <button class="btn-action btn-like" data-article="1">
+                    <span class="icone">❤️</span>
+                    <span class="compteur">42</span>
+                </button>
+
+                <button class="btn-action btn-dislike" data-article="1">
+                    <span class="icone">👎</span>
+                    <span class="compteur">3</span>
+                </button>
+            </div>
+        </article>
+
+        <!-- ARTICLE 2 -->
+        <article class="article">
+            <div class="article-header">
+                <div class="avatar">🕹️</div>
+                <div>
+                    <div class="auteur">GameZone</div>
+                    <div class="date">Il y a 5 heures</div>
+                </div>
+            </div>
+
+            <h2>Minecraft 2.0 : La mise à jour de l'année ?</h2>
+            <div class="article-image" style="background: linear-gradient(135deg, #8B4513 0%, #228B22 100%);">⛏️</div>
+            <p>
+                Mojang a annoncé une mise à jour massive pour Minecraft
+                avec de nouveaux biomes, mobs et mécaniques de jeu.
+                La communauté est en effervescence !
+            </p>
+
+            <div class="actions">
+                <button class="btn-action btn-like" data-article="2">
+                    <span class="icone">❤️</span>
+                    <span class="compteur">128</span>
+                </button>
+
+                <button class="btn-action btn-dislike" data-article="2">
+                    <span class="icone">👎</span>
+                    <span class="compteur">5</span>
+                </button>
+            </div>
+        </article>
+
+        <!-- MESSAGE DE SUCCÈS (caché par défaut) -->
+        <div id="message-succes" class="message-succes">
+            🎉 Bravo ! Tu as réussi l'exercice !
+        </div>
+
+    </div>
+
+    <!--
+        ===========================================
+        JAVASCRIPT - À COMPLÉTER !
+        ===========================================
+    -->
+    <script>
+        // ===========================================
+        // EXERCICE : COMPLÈTE LE CODE CI-DESSOUS !
+        // ===========================================
+
+
+        // ÉTAPE 1 : Sélectionner tous les boutons Like et Dislike
+        // -------------------------------------------------------
+        // querySelectorAll retourne une LISTE de tous les éléments
+        // qui correspondent au sélecteur CSS
+
+        let boutonsLike = document.querySelectorAll(".btn-like");
+        let boutonsDislike = document.querySelectorAll(".btn-dislike");
+
+
+        // ÉTAPE 2 : Ajouter un événement sur CHAQUE bouton Like
+        // -----------------------------------------------------
+        // On utilise forEach pour parcourir la liste des boutons
+
+        boutonsLike.forEach(function(bouton) {
+
+            bouton.addEventListener("click", function() {
+
+                // EXERCICE A : Récupérer le compteur dans ce bouton
+                // -------------------------------------------------
+                // Le compteur est un <span class="compteur"> DANS le bouton
+                // Utilise : bouton.querySelector(".compteur")
+                //
+                // let compteur = ???;
+
+                let compteur = bouton.querySelector(".compteur");
+
+
+                // EXERCICE B : Récupérer la valeur actuelle du compteur
+                // -----------------------------------------------------
+                // Le texte du compteur est une chaîne ("42")
+                // Il faut la convertir en nombre avec parseInt()
+                //
+                // let valeur = parseInt(compteur.textContent);
+                //
+                // À TOI ! Écris le code :
+
+
+
+                // EXERCICE C : Augmenter la valeur de 1
+                // -------------------------------------
+                // Ajoute 1 à la valeur
+                //
+                // valeur = valeur + 1;
+                //
+                // À TOI ! Écris le code :
+
+
+
+                // EXERCICE D : Mettre à jour l'affichage
+                // --------------------------------------
+                // Change le texte du compteur avec la nouvelle valeur
+                //
+                // compteur.textContent = valeur;
+                //
+                // À TOI ! Écris le code :
+
+
+
+                // EXERCICE E : Ajouter la classe "active" au bouton
+                // -------------------------------------------------
+                // La classe "active" change le style du bouton (coloré)
+                //
+                // bouton.classList.add("active");
+                //
+                // À TOI ! Écris le code :
+
+
+
+                // ===========================================
+                // BONUS : Désactiver le bouton Dislike
+                // ===========================================
+                // Quand on like, on ne peut plus disliker !
+                //
+                // 1. Trouver le bouton dislike du même article
+                //    let articleId = bouton.getAttribute("data-article");
+                //    let btnDislike = document.querySelector(
+                //        '.btn-dislike[data-article="' + articleId + '"]'
+                //    );
+                //
+                // 2. Enlever sa classe "active" si elle existe
+                //    btnDislike.classList.remove("active");
+
+
+
+            });
+
+        });
+
+
+        // ÉTAPE 3 : Ajouter un événement sur CHAQUE bouton Dislike
+        // --------------------------------------------------------
+        // C'est presque pareil que pour les likes, mais on DIMINUE de 1
+
+        boutonsDislike.forEach(function(bouton) {
+
+            bouton.addEventListener("click", function() {
+
+                // EXERCICE F : Faire la même chose que pour Like
+                // ----------------------------------------------
+                // Mais cette fois, on DIMINUE la valeur de 1 :
+                // valeur = valeur - 1;
+                //
+                // Copie et adapte le code des exercices B, C, D, E ci-dessus :
+
+
+
+            });
+
+        });
+
+
+        // ===========================================
+        // BONUS AVANCÉ : Empêcher les valeurs négatives
+        // ===========================================
+        // On ne veut pas que le compteur de dislikes
+        // descende en dessous de 0 !
+        //
+        // Utilise une condition :
+        // if (valeur >= 0) {
+        //     compteur.textContent = valeur;
+        // }
+
+
+        // ===========================================
+        // VÉRIFICATION (ne pas modifier)
+        // ===========================================
+        // Ce code vérifie si tu as bien complété l'exercice
+
+        setTimeout(function() {
+            document.addEventListener("click", function(e) {
+                if (e.target.closest(".btn-like") || e.target.closest(".btn-dislike")) {
+                    let btn = e.target.closest(".btn-action");
+                    if (btn && btn.classList.contains("active")) {
+                        document.getElementById("message-succes").classList.add("visible");
+                    }
+                }
+            });
+        }, 100);
+
+    </script>
+
+</body>
+</html>

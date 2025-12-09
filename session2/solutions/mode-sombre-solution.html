@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SOLUTION - Mode Sombre</title>
+    <style>
+        :root {
+            --couleur-fond: #f5f5f5;
+            --couleur-texte: #333333;
+            --couleur-carte: #ffffff;
+            --couleur-header: #3498db;
+            --couleur-bouton: #2c3e50;
+            --ombre: rgba(0, 0, 0, 0.1);
+        }
+
+        body.mode-sombre {
+            --couleur-fond: #1a1a2e;
+            --couleur-texte: #eaeaea;
+            --couleur-carte: #16213e;
+            --couleur-header: #0f3460;
+            --couleur-bouton: #e94560;
+            --ombre: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--couleur-fond);
+            color: var(--couleur-texte);
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            background-color: var(--couleur-header);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        header h1 {
+            font-size: 1.5em;
+        }
+
+        #btn-theme {
+            background-color: var(--couleur-bouton);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #btn-theme:hover {
+            transform: scale(1.05);
+        }
+
+        .icone {
+            font-size: 1.2em;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .carte {
+            background-color: var(--couleur-carte);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px var(--ombre);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .carte h2 {
+            margin-bottom: 15px;
+            color: var(--couleur-texte);
+        }
+
+        .carte p {
+            line-height: 1.8;
+            color: var(--couleur-texte);
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--couleur-texte);
+            opacity: 0.7;
+        }
+
+        .success-badge {
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>GameZone News</h1>
+        <button id="btn-theme">
+            <span class="icone">🌙</span>
+            <span id="texte-theme">Mode sombre</span>
+        </button>
+    </header>
+
+    <main>
+        <div class="carte">
+            <span class="success-badge">SOLUTION</span>
+            <h2>Mode Sombre Fonctionnel !</h2>
+            <p>
+                Cette page contient la solution complète de l'exercice.
+                Clique sur le bouton en haut à droite pour tester.
+            </p>
+        </div>
+
+        <div class="carte">
+            <h2>Actualité du jour</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>Session 2 - Mode Sombre (SOLUTION)</p>
+    </footer>
+
+    <script>
+        // ===========================================
+        // SOLUTION COMPLÈTE
+        // ===========================================
+
+        // ÉTAPE 1 : Sélectionner les éléments
+        let bouton = document.getElementById("btn-theme");
+        let texteTheme = document.getElementById("texte-theme");
+        let icone = document.querySelector(".icone");
+        let body = document.body;
+
+        // ÉTAPE 2 : Variable d'état
+        let estModeSombre = false;
+
+        // ÉTAPE 3 : Événement click
+        bouton.addEventListener("click", function() {
+
+            // SOLUTION A : Toggle la classe
+            body.classList.toggle("mode-sombre");
+
+            // SOLUTION B : Inverser la variable
+            estModeSombre = !estModeSombre;
+
+            // SOLUTION C : Changer texte et icône
+            if (estModeSombre) {
+                texteTheme.textContent = "Mode clair";
+                icone.textContent = "☀️";
+            } else {
+                texteTheme.textContent = "Mode sombre";
+                icone.textContent = "🌙";
+            }
+
+            // BONUS : Sauvegarder dans localStorage
+            if (estModeSombre) {
+                localStorage.setItem("theme", "sombre");
+            } else {
+                localStorage.setItem("theme", "clair");
+            }
+        });
+
+        // BONUS : Charger le thème sauvegardé au démarrage
+        let themeSauvegarde = localStorage.getItem("theme");
+        if (themeSauvegarde === "sombre") {
+            body.classList.add("mode-sombre");
+            estModeSombre = true;
+            texteTheme.textContent = "Mode clair";
+            icone.textContent = "☀️";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SOLUTION - Exercice Flexbox</title>
+    <style>
+        /* ===========================================
+           SOLUTION FLEXBOX
+           =========================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --couleur-principale: #3498db;
+            --couleur-foncee: #2c3e50;
+            --couleur-fond: #f5f5f5;
+            --couleur-carte: #ffffff;
+            --espacement: 20px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--couleur-fond);
+            color: var(--couleur-foncee);
+            line-height: 1.6;
+        }
+
+        /* SOLUTION EXERCICE 1 : Centrer le texte */
+        header {
+            background-color: var(--couleur-principale);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;  /* <-- SOLUTION */
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--espacement);
+        }
+
+        .section-titre {
+            text-align: center;
+            margin: 30px 0;
+            color: var(--couleur-foncee);
+        }
+
+        /* SOLUTION EXERCICE 2 : Flexbox sur la galerie */
+        .galerie {
+            display: flex;           /* <-- SOLUTION : Active Flexbox */
+            flex-wrap: wrap;         /* <-- SOLUTION : Retour à la ligne */
+            gap: 20px;               /* <-- SOLUTION : Espace entre cartes */
+            justify-content: center; /* <-- SOLUTION : Centre les cartes */
+        }
+
+        /* SOLUTION EXERCICE 3 : Transition sur la carte */
+        .carte {
+            background-color: var(--couleur-carte);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 300px;
+            overflow: hidden;
+            transition: transform 0.3s ease;  /* <-- SOLUTION */
+        }
+
+        /* SOLUTION EXERCICE 4 : Effet hover */
+        .carte:hover {
+            transform: scale(1.05);  /* <-- SOLUTION : Agrandir au survol */
+        }
+
+        .carte-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #ddd;
+        }
+
+        .carte-contenu {
+            padding: 20px;
+        }
+
+        .carte-contenu h3 {
+            color: var(--couleur-foncee);
+            margin-bottom: 10px;
+        }
+
+        .carte-contenu p {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+
+        /* SOLUTION EXERCICE 5 : Transition sur le bouton */
+        .bouton {
+            display: inline-block;
+            background-color: var(--couleur-principale);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;  /* <-- SOLUTION */
+        }
+
+        .bouton:hover {
+            background-color: var(--couleur-foncee);
+        }
+
+        .note {
+            display: inline-block;
+            background-color: #f1c40f;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: var(--couleur-foncee);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            .carte {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>GameZone - Nos Coups de Coeur</h1>
+        <p>Découvre notre sélection des meilleurs jeux du moment !</p>
+    </header>
+
+    <main>
+        <h2 class="section-titre">Les jeux les mieux notés</h2>
+
+        <div class="galerie">
+
+            <div class="carte">
+                <div class="carte-image"></div>
+                <div class="carte-contenu">
+                    <span class="note">9.5/10</span>
+                    <h3>GTA 6</h3>
+                    <p>Le jeu le plus attendu de la décennie arrive enfin à Vice City !</p>
+                    <a href="#" class="bouton">En savoir plus</a>
+                </div>
+            </div>
+
+            <div class="carte">
+                <div class="carte-image"></div>
+                <div class="carte-contenu">
+                    <span class="note">9.2/10</span>
+                    <h3>Minecraft</h3>
+                    <p>Le jeu de construction qui a conquis le monde continue d'évoluer.</p>
+                    <a href="#" class="bouton">En savoir plus</a>
+                </div>
+            </div>
+
+            <div class="carte">
+                <div class="carte-image"></div>
+                <div class="carte-contenu">
+                    <span class="note">9.8/10</span>
+                    <h3>Zelda: Tears of the Kingdom</h3>
+                    <p>Une aventure épique dans le royaume d'Hyrule transformé.</p>
+                    <a href="#" class="bouton">En savoir plus</a>
+                </div>
+            </div>
+
+            <!-- SOLUTION EXERCICE 6 : 4ème carte -->
+            <div class="carte">
+                <div class="carte-image"></div>
+                <div class="carte-contenu">
+                    <span class="note">9.0/10</span>
+                    <h3>Fortnite</h3>
+                    <p>Le Battle Royale qui a révolutionné le gaming multijoueur.</p>
+                    <a href="#" class="bouton">En savoir plus</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>GameZone - Session 2 : Flexbox (SOLUTION)</p>
+    </footer>
+
+</body>
+</html>

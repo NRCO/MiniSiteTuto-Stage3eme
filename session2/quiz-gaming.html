@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Gaming - JavaScript</title>
+    <style>
+        /* ===========================================
+           QUIZ GAMING - EXERCICE FINAL
+           ===========================================
+
+           Tu vas créer un quiz interactif sur les
+           jeux vidéo en utilisant JavaScript !
+
+           Concepts utilisés :
+           - Tableaux (arrays)
+           - Objets
+           - Conditions (if/else)
+           - Boucles (forEach)
+           - Manipulation du DOM
+
+           =========================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        /* --- CONTENEUR --- */
+        .conteneur {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- EN-TÊTE --- */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #a0a0a0;
+        }
+
+        /* --- BARRE DE PROGRESSION --- */
+        .progression {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progression-barre {
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* --- INFOS (Question X/Y - Score) --- */
+        .infos {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: #a0a0a0;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #f5576c;
+        }
+
+        /* --- CARTE QUESTION --- */
+        .carte-question {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .question-texte {
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        /* --- RÉPONSES --- */
+        .reponses {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-reponse {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reponse:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateX(5px);
+        }
+
+        .btn-reponse.correct {
+            background: rgba(39, 174, 96, 0.3);
+            border-color: #27ae60;
+        }
+
+        .btn-reponse.incorrect {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: #e74c3c;
+        }
+
+        .btn-reponse:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* --- FEEDBACK --- */
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback.visible {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: rgba(39, 174, 96, 0.2);
+            border: 1px solid #27ae60;
+        }
+
+        .feedback.incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+        }
+
+        /* --- BOUTON SUIVANT --- */
+        .btn-suivant {
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-suivant.visible {
+            display: inline-block;
+        }
+
+        .btn-suivant:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(240, 147, 251, 0.4);
+        }
+
+        /* --- ÉCRAN DE RÉSULTAT --- */
+        .resultat {
+            text-align: center;
+            display: none;
+        }
+
+        .resultat.visible {
+            display: block;
+        }
+
+        .resultat-icone {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .resultat-score {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .resultat-message {
+            font-size: 1.3em;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+
+        .btn-rejouer {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-rejouer:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- INSTRUCTIONS --- */
+        .instructions {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .instructions h2 {
+            color: #f5576c;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #a0a0a0;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .instructions code {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #f093fb;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="conteneur">
+
+        <!-- EN-TÊTE -->
+        <div class="header">
+            <h1>Quiz Gaming</h1>
+            <p>Teste tes connaissances sur les jeux vidéo !</p>
+        </div>
+
+        <!-- INSTRUCTIONS (visibles au début) -->
+        <div class="instructions" id="instructions">
+            <h2>Exercice : Créer un Quiz Interactif</h2>
+            <ol>
+                <li>Afficher les questions une par une</li>
+                <li>Vérifier si la réponse est correcte</li>
+                <li>Mettre à jour le score</li>
+                <li>Afficher le résultat final</li>
+            </ol>
+            <p style="margin-top: 15px; color: #666;">
+                Le quiz fonctionne déjà partiellement. À toi de compléter le JavaScript !
+            </p>
+        </div>
+
+        <!-- BARRE DE PROGRESSION -->
+        <div class="progression">
+            <div class="progression-barre" id="progression-barre"></div>
+        </div>
+
+        <!-- INFOS -->
+        <div class="infos">
+            <span id="numero-question">Question 1/5</span>
+            <span>Score : <span class="score" id="score">0</span></span>
+        </div>
+
+        <!-- ZONE DE QUIZ -->
+        <div id="zone-quiz">
+            <div class="carte-question">
+                <p class="question-texte" id="question-texte">Chargement...</p>
+
+                <div class="reponses" id="reponses">
+                    <!-- Les boutons de réponse seront générés par JavaScript -->
+                </div>
+
+                <div class="feedback" id="feedback"></div>
+
+                <button class="btn-suivant" id="btn-suivant">Question suivante</button>
+            </div>
+        </div>
+
+        <!-- ÉCRAN DE RÉSULTAT (caché au début) -->
+        <div class="resultat" id="resultat">
+            <div class="resultat-icone" id="resultat-icone">🏆</div>
+            <div class="resultat-score" id="resultat-score">0/5</div>
+            <p class="resultat-message" id="resultat-message">Bravo !</p>
+            <button class="btn-rejouer" id="btn-rejouer">Rejouer</button>
+        </div>
+
+    </div>
+
+    <script>
+        // ===========================================
+        // QUIZ GAMING - JAVASCRIPT
+        // ===========================================
+
+        // --- LES QUESTIONS DU QUIZ ---
+        // Un TABLEAU (array) contenant des OBJETS
+        // Chaque objet a : question, reponses, correcte
+
+        const questions = [
+            {
+                question: "Dans quel jeu trouve-t-on le personnage de Mario ?",
+                reponses: ["Zelda", "Super Mario Bros", "Sonic", "Pokémon"],
+                correcte: 1  // Index de la bonne réponse (commence à 0)
+            },
+            {
+                question: "Quel est le jeu le plus vendu de tous les temps ?",
+                reponses: ["GTA 5", "Tetris", "Minecraft", "Wii Sports"],
+                correcte: 2
+            },
+            {
+                question: "En quelle année est sorti le premier PlayStation ?",
+                reponses: ["1990", "1994", "1998", "2000"],
+                correcte: 1
+            },
+            {
+                question: "Quel studio a créé Fortnite ?",
+                reponses: ["Rockstar Games", "Epic Games", "Ubisoft", "EA Sports"],
+                correcte: 1
+            },
+            {
+                question: "Comment s'appelle le héros de The Legend of Zelda ?",
+                reponses: ["Zelda", "Link", "Ganon", "Epona"],
+                correcte: 1
+            }
+        ];
+
+
+        // --- VARIABLES DU JEU ---
+
+        let questionActuelle = 0;  // Index de la question en cours
+        let score = 0;             // Score du joueur
+        let aRepondu = false;      // Pour éviter de répondre 2 fois
+
+
+        // --- SÉLECTION DES ÉLÉMENTS HTML ---
+
+        const questionTexte = document.getElementById("question-texte");
+        const reponsesDiv = document.getElementById("reponses");
+        const feedback = document.getElementById("feedback");
+        const btnSuivant = document.getElementById("btn-suivant");
+        const scoreElement = document.getElementById("score");
+        const numeroQuestion = document.getElementById("numero-question");
+        const progressionBarre = document.getElementById("progression-barre");
+        const zoneQuiz = document.getElementById("zone-quiz");
+        const resultat = document.getElementById("resultat");
+        const btnRejouer = document.getElementById("btn-rejouer");
+
+
+        // ===========================================
+        // FONCTION : Afficher une question
+        // ===========================================
+
+        function afficherQuestion() {
+
+            // Réinitialiser l'état
+            aRepondu = false;
+            feedback.classList.remove("visible", "correct", "incorrect");
+            btnSuivant.classList.remove("visible");
+
+            // Récupérer la question actuelle du tableau
+            let q = questions[questionActuelle];
+
+            // Afficher le texte de la question
+            questionTexte.textContent = q.question;
+
+            // Mettre à jour le numéro de question
+            numeroQuestion.textContent = `Question ${questionActuelle + 1}/${questions.length}`;
+
+            // Mettre à jour la barre de progression
+            let pourcentage = (questionActuelle / questions.length) * 100;
+            progressionBarre.style.width = pourcentage + "%";
+
+            // Vider les anciennes réponses
+            reponsesDiv.innerHTML = "";
+
+            // EXERCICE A : Créer les boutons de réponse
+            // -----------------------------------------
+            // Pour chaque réponse dans q.reponses, on crée un bouton
+            //
+            // q.reponses.forEach(function(reponse, index) {
+            //     // Créer un bouton
+            //     let bouton = document.createElement("button");
+            //     bouton.textContent = reponse;
+            //     bouton.classList.add("btn-reponse");
+            //
+            //     // Quand on clique, vérifier la réponse
+            //     bouton.addEventListener("click", function() {
+            //         verifierReponse(index);
+            //     });
+            //
+            //     // Ajouter le bouton dans la div
+            //     reponsesDiv.appendChild(bouton);
+            // });
+            //
+            // À TOI ! Écris le code ici :
+
+            q.reponses.forEach(function(reponse, index) {
+                let bouton = document.createElement("button");
+                bouton.textContent = reponse;
+                bouton.classList.add("btn-reponse");
+
+                bouton.addEventListener("click", function() {
+                    verifierReponse(index);
+                });
+
+                reponsesDiv.appendChild(bouton);
+            });
+
+        }
+
+
+        // ===========================================
+        // FONCTION : Vérifier la réponse
+        // ===========================================
+
+        function verifierReponse(indexChoisi) {
+
+            // Si on a déjà répondu, on ne fait rien
+            if (aRepondu) return;
+            aRepondu = true;
+
+            // Récupérer la question actuelle
+            let q = questions[questionActuelle];
+
+            // Récupérer tous les boutons de réponse
+            let boutons = reponsesDiv.querySelectorAll(".btn-reponse");
+
+            // EXERCICE B : Vérifier si la réponse est correcte
+            // ------------------------------------------------
+            // Compare indexChoisi avec q.correcte
+            //
+            // if (indexChoisi === q.correcte) {
+            //     // Bonne réponse !
+            //     score = score + 1;
+            //     scoreElement.textContent = score;
+            //     boutons[indexChoisi].classList.add("correct");
+            //     feedback.textContent = "✅ Bonne réponse !";
+            //     feedback.classList.add("correct");
+            // } else {
+            //     // Mauvaise réponse
+            //     boutons[indexChoisi].classList.add("incorrect");
+            //     boutons[q.correcte].classList.add("correct");
+            //     feedback.textContent = "❌ Mauvaise réponse !";
+            //     feedback.classList.add("incorrect");
+            // }
+            //
+            // À TOI ! Écris le code ici :
+
+
+
+            // Afficher le feedback
+            feedback.classList.add("visible");
+
+            // Désactiver tous les boutons
+            boutons.forEach(function(btn) {
+                btn.disabled = true;
+            });
+
+            // Afficher le bouton "Suivant"
+            btnSuivant.classList.add("visible");
+        }
+
+
+        // ===========================================
+        // FONCTION : Passer à la question suivante
+        // ===========================================
+
+        btnSuivant.addEventListener("click", function() {
+
+            // EXERCICE C : Passer à la question suivante
+            // ------------------------------------------
+            // 1. Augmenter questionActuelle de 1
+            // 2. Vérifier si on a fini toutes les questions
+            // 3. Si oui, afficher le résultat
+            // 4. Si non, afficher la question suivante
+            //
+            // questionActuelle = questionActuelle + 1;
+            //
+            // if (questionActuelle >= questions.length) {
+            //     afficherResultat();
+            // } else {
+            //     afficherQuestion();
+            // }
+            //
+            // À TOI ! Écris le code ici :
+
+
+
+        });
+
+
+        // ===========================================
+        // FONCTION : Afficher le résultat final
+        // ===========================================
+
+        function afficherResultat() {
+
+            // Cacher le quiz
+            zoneQuiz.style.display = "none";
+
+            // Afficher l'écran de résultat
+            resultat.classList.add("visible");
+
+            // Mettre à jour la barre de progression à 100%
+            progressionBarre.style.width = "100%";
+
+            // Afficher le score
+            document.getElementById("resultat-score").textContent = `${score}/${questions.length}`;
+
+            // EXERCICE D : Afficher un message selon le score
+            // -----------------------------------------------
+            // - Si score >= 4 : "🏆 Excellent ! Tu es un vrai gamer !"
+            // - Si score >= 2 : "👍 Pas mal ! Tu connais tes classiques."
+            // - Sinon : "📚 Continue à jouer pour t'améliorer !"
+            //
+            // let message = "";
+            // let icone = "";
+            //
+            // if (score >= 4) {
+            //     message = "Excellent ! Tu es un vrai gamer !";
+            //     icone = "🏆";
+            // } else if (score >= 2) {
+            //     message = "Pas mal ! Tu connais tes classiques.";
+            //     icone = "👍";
+            // } else {
+            //     message = "Continue à jouer pour t'améliorer !";
+            //     icone = "📚";
+            // }
+            //
+            // document.getElementById("resultat-message").textContent = message;
+            // document.getElementById("resultat-icone").textContent = icone;
+            //
+            // À TOI ! Écris le code ici :
+
+
+
+        }
+
+
+        // ===========================================
+        // FONCTION : Rejouer
+        // ===========================================
+
+        btnRejouer.addEventListener("click", function() {
+
+            // Réinitialiser les variables
+            questionActuelle = 0;
+            score = 0;
+            scoreElement.textContent = "0";
+
+            // Cacher le résultat
+            resultat.classList.remove("visible");
+
+            // Afficher le quiz
+            zoneQuiz.style.display = "block";
+
+            // Afficher la première question
+            afficherQuestion();
+        });
+
+
+        // ===========================================
+        // DÉMARRER LE QUIZ
+        // ===========================================
+
+        // Afficher la première question au chargement
+        afficherQuestion();
+
+
+        // ===========================================
+        // BONUS : Ajoute tes propres questions !
+        // ===========================================
+        //
+        // Tu peux ajouter des questions au tableau "questions" :
+        //
+        // {
+        //     question: "Ta question ici ?",
+        //     reponses: ["Réponse 1", "Réponse 2", "Réponse 3", "Réponse 4"],
+        //     correcte: 0  // Index de la bonne réponse (0, 1, 2 ou 3)
+        // }
+        //
+        // N'oublie pas la virgule entre chaque question !
+
+
+    </script>
+
+</body>
+</html>

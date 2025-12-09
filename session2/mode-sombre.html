@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice JavaScript - Mode Sombre</title>
+    <style>
+        /* ===========================================
+           EXERCICE : MODE SOMBRE
+           ===========================================
+
+           On utilise des VARIABLES CSS pour définir
+           les couleurs. Le JavaScript va juste changer
+           les valeurs de ces variables !
+
+           =========================================== */
+
+        /* --- VARIABLES CSS : MODE CLAIR (par défaut) --- */
+        :root {
+            --couleur-fond: #f5f5f5;
+            --couleur-texte: #333333;
+            --couleur-carte: #ffffff;
+            --couleur-header: #3498db;
+            --couleur-bouton: #2c3e50;
+            --ombre: rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- VARIABLES CSS : MODE SOMBRE --- */
+        /*
+           Quand on ajoute la classe "mode-sombre" sur le body,
+           ces nouvelles couleurs s'appliquent !
+        */
+        body.mode-sombre {
+            --couleur-fond: #1a1a2e;
+            --couleur-texte: #eaeaea;
+            --couleur-carte: #16213e;
+            --couleur-header: #0f3460;
+            --couleur-bouton: #e94560;
+            --ombre: rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* --- CORPS --- */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--couleur-fond);
+            color: var(--couleur-texte);
+            min-height: 100vh;
+            /*
+               Cette transition anime le changement de couleur !
+               Sans ça, le changement serait instantané.
+            */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- EN-TÊTE --- */
+        header {
+            background-color: var(--couleur-header);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        header h1 {
+            font-size: 1.5em;
+        }
+
+        /* --- BOUTON MODE SOMBRE --- */
+        #btn-theme {
+            background-color: var(--couleur-bouton);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #btn-theme:hover {
+            transform: scale(1.05);
+        }
+
+        /* Icône dans le bouton */
+        .icone {
+            font-size: 1.2em;
+        }
+
+        /* --- CONTENU PRINCIPAL --- */
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* --- CARTE --- */
+        .carte {
+            background-color: var(--couleur-carte);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px var(--ombre);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .carte h2 {
+            margin-bottom: 15px;
+            color: var(--couleur-texte);
+        }
+
+        .carte p {
+            line-height: 1.8;
+            color: var(--couleur-texte);
+            opacity: 0.9;
+        }
+
+        /* --- CODE EXEMPLE --- */
+        .code-exemple {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .code-exemple .commentaire {
+            color: #6272a4;
+        }
+
+        .code-exemple .fonction {
+            color: #50fa7b;
+        }
+
+        .code-exemple .string {
+            color: #f1fa8c;
+        }
+
+        /* --- LISTE D'ÉTAPES --- */
+        .etapes {
+            list-style: none;
+            counter-reset: etape;
+        }
+
+        .etapes li {
+            counter-increment: etape;
+            margin-bottom: 15px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .etapes li::before {
+            content: counter(etape);
+            position: absolute;
+            left: 0;
+            width: 28px;
+            height: 28px;
+            background-color: var(--couleur-header);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        /* --- PIED DE PAGE --- */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--couleur-texte);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- EN-TÊTE AVEC BOUTON -->
+    <header>
+        <h1>GameZone News</h1>
+        <!--
+            Ce bouton va changer entre mode clair et mode sombre.
+            L'attribut id="btn-theme" permet de le sélectionner en JavaScript.
+        -->
+        <button id="btn-theme">
+            <span class="icone">🌙</span>
+            <span id="texte-theme">Mode sombre</span>
+        </button>
+    </header>
+
+    <!-- CONTENU -->
+    <main>
+
+        <!-- EXPLICATION DE L'EXERCICE -->
+        <div class="carte">
+            <h2>Exercice : Créer un bouton Mode Sombre</h2>
+            <p>
+                Clique sur le bouton en haut à droite... Il ne fait rien pour l'instant !
+                C'est à toi de coder le JavaScript pour qu'il fonctionne.
+            </p>
+        </div>
+
+        <!-- CE QU'IL FAUT FAIRE -->
+        <div class="carte">
+            <h2>Ce que tu dois faire</h2>
+            <ol class="etapes">
+                <li>Sélectionner le bouton avec <code>document.getElementById()</code></li>
+                <li>Ajouter un événement "click" sur le bouton</li>
+                <li>Quand on clique, ajouter/enlever la classe "mode-sombre" sur le body</li>
+                <li>Changer le texte et l'icône du bouton</li>
+            </ol>
+        </div>
+
+        <!-- INDICE CODE -->
+        <div class="carte">
+            <h2>Indices</h2>
+            <p>Voici la structure du code à écrire :</p>
+            <div class="code-exemple">
+                <span class="commentaire">// 1. Sélectionner les éléments</span><br>
+                <span class="fonction">let</span> bouton = document.<span class="fonction">getElementById</span>(<span class="string">"btn-theme"</span>);<br>
+                <span class="fonction">let</span> body = document.body;<br><br>
+
+                <span class="commentaire">// 2. Écouter le clic sur le bouton</span><br>
+                bouton.<span class="fonction">addEventListener</span>(<span class="string">"click"</span>, <span class="fonction">function</span>() {<br>
+                &nbsp;&nbsp;<span class="commentaire">// 3. Toggle la classe "mode-sombre"</span><br>
+                &nbsp;&nbsp;body.classList.<span class="fonction">toggle</span>(<span class="string">"mode-sombre"</span>);<br><br>
+                &nbsp;&nbsp;<span class="commentaire">// 4. Changer le texte du bouton</span><br>
+                &nbsp;&nbsp;<span class="commentaire">// ??? À toi de compléter !</span><br>
+                });
+            </div>
+        </div>
+
+        <!-- ARTICLE EXEMPLE -->
+        <div class="carte">
+            <h2>Actualité du jour</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+            </p>
+            <p>
+                Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                cupidatat non proident, sunt in culpa qui officia deserunt.
+            </p>
+        </div>
+
+    </main>
+
+    <!-- PIED DE PAGE -->
+    <footer>
+        <p>Session 2 - Exercice JavaScript : Mode Sombre</p>
+    </footer>
+
+    <!--
+        ===========================================
+        JAVASCRIPT - À COMPLÉTER !
+        ===========================================
+
+        Le script doit être APRÈS le contenu HTML
+        pour que les éléments existent quand le code s'exécute.
+    -->
+    <script>
+        // ===========================================
+        // EXERCICE : COMPLÈTE LE CODE CI-DESSOUS !
+        // ===========================================
+
+        // ÉTAPE 1 : Sélectionner les éléments dont on a besoin
+        // ----------------------------------------------------
+        // On a besoin de :
+        // - Le bouton (id="btn-theme")
+        // - Le texte dans le bouton (id="texte-theme")
+        // - L'icône dans le bouton (classe "icone")
+        // - Le body (pour ajouter/enlever la classe)
+
+        let bouton = document.getElementById("btn-theme");
+        let texteTheme = document.getElementById("texte-theme");
+        let icone = document.querySelector(".icone");  // querySelector pour les classes
+        let body = document.body;
+
+
+        // ÉTAPE 2 : Variable pour savoir si on est en mode sombre
+        // -------------------------------------------------------
+        // Cette variable garde en mémoire l'état actuel
+
+        let estModeSombre = false;
+
+
+        // ÉTAPE 3 : Ajouter l'événement "click" sur le bouton
+        // ---------------------------------------------------
+        // Quand on clique sur le bouton, la fonction s'exécute
+
+        bouton.addEventListener("click", function() {
+
+            // EXERCICE A : Toggle la classe "mode-sombre" sur le body
+            // --------------------------------------------------------
+            // Utilise : body.classList.toggle("mode-sombre");
+            //
+            // À TOI DE JOUER ! Écris le code ici :
+
+
+
+            // EXERCICE B : Inverser la variable estModeSombre
+            // -----------------------------------------------
+            // Si estModeSombre est false, il devient true
+            // Si estModeSombre est true, il devient false
+            // Astuce : estModeSombre = !estModeSombre;
+            //
+            // À TOI DE JOUER ! Écris le code ici :
+
+
+
+            // EXERCICE C : Changer le texte et l'icône du bouton
+            // --------------------------------------------------
+            // Si on est en mode sombre :
+            //   - texteTheme.textContent = "Mode clair";
+            //   - icone.textContent = "☀️";
+            // Sinon :
+            //   - texteTheme.textContent = "Mode sombre";
+            //   - icone.textContent = "🌙";
+            //
+            // Utilise une condition if/else :
+            //
+            // if (estModeSombre) {
+            //     // Code pour mode sombre
+            // } else {
+            //     // Code pour mode clair
+            // }
+            //
+            // À TOI DE JOUER ! Écris le code ici :
+
+
+
+        });
+
+
+        // ===========================================
+        // BONUS : Sauvegarder le choix de l'utilisateur
+        // ===========================================
+        //
+        // Quand tu auras fini l'exercice principal, essaie ceci :
+        //
+        // Le localStorage permet de sauvegarder des données
+        // qui persistent même après avoir fermé le navigateur !
+        //
+        // Pour sauvegarder :
+        // localStorage.setItem("theme", "sombre");
+        //
+        // Pour récupérer :
+        // let theme = localStorage.getItem("theme");
+        //
+        // Essaie d'ajouter cette fonctionnalité !
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice Flexbox - Galerie de Jeux</title>
+    <style>
+        /* ===========================================
+           EXERCICE FLEXBOX
+           ===========================================
+
+           Objectif : Créer une galerie de cartes de jeux
+           qui s'affichent côte à côte grâce à Flexbox.
+
+           =========================================== */
+
+        /* --- RESET DE BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* --- VARIABLES CSS --- */
+        /*
+           Les variables permettent de changer facilement
+           les couleurs de tout le site à un seul endroit !
+        */
+        :root {
+            --couleur-principale: #3498db;
+            --couleur-foncee: #2c3e50;
+            --couleur-fond: #f5f5f5;
+            --couleur-carte: #ffffff;
+            --espacement: 20px;
+        }
+
+        /* --- CORPS DE LA PAGE --- */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--couleur-fond);
+            color: var(--couleur-foncee);
+            line-height: 1.6;
+        }
+
+        /* --- EN-TÊTE --- */
+        header {
+            background-color: var(--couleur-principale);
+            color: white;
+            padding: 40px 20px;
+            /*
+               EXERCICE 1 : Centre le texte de l'en-tête
+               Ajoute la propriété pour centrer le texte
+
+               Indice : text-align: ???;
+            */
+
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        /* --- CONTENEUR PRINCIPAL --- */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--espacement);
+        }
+
+        /* --- TITRE DE SECTION --- */
+        .section-titre {
+            text-align: center;
+            margin: 30px 0;
+            color: var(--couleur-foncee);
+        }
+
+        /* --- GALERIE DE CARTES --- */
+        /*
+           EXERCICE 2 : Transforme cette galerie en Flexbox !
+
+           Actuellement les cartes sont empilées verticalement.
+           Tu dois les mettre côte à côte.
+
+           Ajoute ces propriétés :
+           1. display: flex;              (active Flexbox)
+           2. flex-wrap: wrap;            (retour à la ligne si pas assez de place)
+           3. gap: 20px;                  (espace entre les cartes)
+           4. justify-content: center;   (centre les cartes)
+        */
+        .galerie {
+            /* À COMPLÉTER ICI */
+
+
+
+
+        }
+
+        /* --- CARTE DE JEU --- */
+        .carte {
+            background-color: var(--couleur-carte);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 300px;
+            overflow: hidden;
+            /*
+               EXERCICE 3 : Ajoute une transition pour l'effet hover
+
+               Syntaxe : transition: propriété durée timing;
+               Exemple : transition: transform 0.3s ease;
+
+               Indice : on veut animer "transform" pendant 0.3 secondes
+            */
+
+        }
+
+        /*
+           EXERCICE 4 : Ajoute un effet au survol de la carte
+
+           Quand on survole la carte, elle doit légèrement grossir.
+           Utilise : transform: scale(1.05);
+        */
+        .carte:hover {
+            /* À COMPLÉTER ICI */
+
+        }
+
+        /* --- IMAGE DE LA CARTE --- */
+        .carte-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #ddd;
+            /*
+               L'image de placeholder sera grise.
+               Tu peux la remplacer par une vraie image plus tard !
+            */
+        }
+
+        /* --- CONTENU DE LA CARTE --- */
+        .carte-contenu {
+            padding: 20px;
+        }
+
+        .carte-contenu h3 {
+            color: var(--couleur-foncee);
+            margin-bottom: 10px;
+        }
+
+        .carte-contenu p {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+
+        /* --- BOUTON --- */
+        .bouton {
+            display: inline-block;
+            background-color: var(--couleur-principale);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            /*
+               EXERCICE 5 : Ajoute une transition sur le bouton
+
+               On veut animer le background-color pendant 0.3s
+            */
+
+        }
+
+        .bouton:hover {
+            background-color: var(--couleur-foncee);
+        }
+
+        /* --- NOTE/BADGE --- */
+        .note {
+            display: inline-block;
+            background-color: #f1c40f;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* --- PIED DE PAGE --- */
+        footer {
+            background-color: var(--couleur-foncee);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* ===========================================
+           BONUS : RESPONSIVE DESIGN
+           ===========================================
+
+           Le code ci-dessous adapte le site aux petits écrans.
+           Grâce à flex-wrap: wrap, les cartes passent
+           automatiquement à la ligne !
+
+           =========================================== */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .carte {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- EN-TÊTE -->
+    <header>
+        <h1>GameZone - Nos Coups de Coeur</h1>
+        <p>Découvre notre sélection des meilleurs jeux du moment !</p>
+    </header>
+
+    <!-- CONTENU PRINCIPAL -->
+    <main>
+        <h2 class="section-titre">Les jeux les mieux notés</h2>
+
+        <!-- GALERIE DE CARTES -->
+        <div class="galerie">
+
+            <!-- CARTE 1 : GTA 6 -->
+            <div class="carte">
+                <div class="carte-image">
+                    <!--
+                        Tu peux remplacer ce div par une vraie image :
+                        <img src="images/gta6.jpg" alt="GTA 6" class="carte-image">
+                    -->
+                </div>
+                <div class="carte-contenu">
+                    <span class="note">9.5/10</span>
+                    <h3>GTA 6</h3>
+                    <p>Le jeu le plus attendu de la décennie arrive enfin à Vice City !</p>
+                    <a href="#" class="bouton">En savoir plus</a>
+                </div>
+            </div>
+
+            <!-- CARTE 2 : Minecraft -->
+            <div class="carte">
+                <div class="carte-image"></div>
+                <div class="carte-contenu">
+                    <span class="note">9.2/10</span>
+                    <h3>Minecraft</h3>
+                    <p>Le jeu de construction qui a conquis le monde continue d'évoluer.</p>
+                    <a href="#" class="bouton">En savoir plus</a>
+                </div>
+            </div>
+
+            <!-- CARTE 3 : Zelda -->
+            <div class="carte">
+                <div class="carte-image"></div>
+                <div class="carte-contenu">
+                    <span class="note">9.8/10</span>
+                    <h3>Zelda: Tears of the Kingdom</h3>
+                    <p>Une aventure épique dans le royaume d'Hyrule transformé.</p>
+                    <a href="#" class="bouton">En savoir plus</a>
+                </div>
+            </div>
+
+            <!--
+                ===========================================
+                EXERCICE 6 : Ajoute une 4ème carte !
+                ===========================================
+
+                Copie une des cartes ci-dessus et modifie :
+                - Le titre du jeu
+                - La description
+                - La note
+
+                Idées : Fortnite, FIFA 25, Call of Duty, Hogwarts Legacy...
+            -->
+
+
+        </div>
+    </main>
+
+    <!-- PIED DE PAGE -->
+    <footer>
+        <p>GameZone - Session 2 : Flexbox</p>
+    </footer>
+
+</body>
+</html>

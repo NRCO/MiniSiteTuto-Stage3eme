@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SOLUTION - Quiz Gaming</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .conteneur {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #a0a0a0;
+        }
+
+        .progression {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progression-barre {
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .infos {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: #a0a0a0;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #f5576c;
+        }
+
+        .carte-question {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .question-texte {
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .reponses {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-reponse {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reponse:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateX(5px);
+        }
+
+        .btn-reponse.correct {
+            background: rgba(39, 174, 96, 0.3);
+            border-color: #27ae60;
+        }
+
+        .btn-reponse.incorrect {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: #e74c3c;
+        }
+
+        .btn-reponse:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback.visible {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: rgba(39, 174, 96, 0.2);
+            border: 1px solid #27ae60;
+        }
+
+        .feedback.incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+        }
+
+        .btn-suivant {
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-suivant.visible {
+            display: inline-block;
+        }
+
+        .btn-suivant:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(240, 147, 251, 0.4);
+        }
+
+        .resultat {
+            text-align: center;
+            display: none;
+        }
+
+        .resultat.visible {
+            display: block;
+        }
+
+        .resultat-icone {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .resultat-score {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .resultat-message {
+            font-size: 1.3em;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+
+        .btn-rejouer {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-rejouer:hover {
+            transform: scale(1.05);
+        }
+
+        .success-badge {
+            background: #27ae60;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="conteneur">
+
+        <div class="header">
+            <span class="success-badge">SOLUTION COMPLÈTE</span>
+            <h1>Quiz Gaming</h1>
+            <p>Teste tes connaissances sur les jeux vidéo !</p>
+        </div>
+
+        <div class="progression">
+            <div class="progression-barre" id="progression-barre"></div>
+        </div>
+
+        <div class="infos">
+            <span id="numero-question">Question 1/5</span>
+            <span>Score : <span class="score" id="score">0</span></span>
+        </div>
+
+        <div id="zone-quiz">
+            <div class="carte-question">
+                <p class="question-texte" id="question-texte">Chargement...</p>
+                <div class="reponses" id="reponses"></div>
+                <div class="feedback" id="feedback"></div>
+                <button class="btn-suivant" id="btn-suivant">Question suivante</button>
+            </div>
+        </div>
+
+        <div class="resultat" id="resultat">
+            <div class="resultat-icone" id="resultat-icone">🏆</div>
+            <div class="resultat-score" id="resultat-score">0/5</div>
+            <p class="resultat-message" id="resultat-message">Bravo !</p>
+            <button class="btn-rejouer" id="btn-rejouer">Rejouer</button>
+        </div>
+
+    </div>
+
+    <script>
+        // ===========================================
+        // SOLUTION COMPLÈTE DU QUIZ
+        // ===========================================
+
+        const questions = [
+            {
+                question: "Dans quel jeu trouve-t-on le personnage de Mario ?",
+                reponses: ["Zelda", "Super Mario Bros", "Sonic", "Pokémon"],
+                correcte: 1
+            },
+            {
+                question: "Quel est le jeu le plus vendu de tous les temps ?",
+                reponses: ["GTA 5", "Tetris", "Minecraft", "Wii Sports"],
+                correcte: 2
+            },
+            {
+                question: "En quelle année est sorti le premier PlayStation ?",
+                reponses: ["1990", "1994", "1998", "2000"],
+                correcte: 1
+            },
+            {
+                question: "Quel studio a créé Fortnite ?",
+                reponses: ["Rockstar Games", "Epic Games", "Ubisoft", "EA Sports"],
+                correcte: 1
+            },
+            {
+                question: "Comment s'appelle le héros de The Legend of Zelda ?",
+                reponses: ["Zelda", "Link", "Ganon", "Epona"],
+                correcte: 1
+            }
+        ];
+
+        let questionActuelle = 0;
+        let score = 0;
+        let aRepondu = false;
+
+        const questionTexte = document.getElementById("question-texte");
+        const reponsesDiv = document.getElementById("reponses");
+        const feedback = document.getElementById("feedback");
+        const btnSuivant = document.getElementById("btn-suivant");
+        const scoreElement = document.getElementById("score");
+        const numeroQuestion = document.getElementById("numero-question");
+        const progressionBarre = document.getElementById("progression-barre");
+        const zoneQuiz = document.getElementById("zone-quiz");
+        const resultat = document.getElementById("resultat");
+        const btnRejouer = document.getElementById("btn-rejouer");
+
+        // FONCTION : Afficher une question
+        function afficherQuestion() {
+            aRepondu = false;
+            feedback.classList.remove("visible", "correct", "incorrect");
+            btnSuivant.classList.remove("visible");
+
+            let q = questions[questionActuelle];
+            questionTexte.textContent = q.question;
+            numeroQuestion.textContent = `Question ${questionActuelle + 1}/${questions.length}`;
+
+            let pourcentage = (questionActuelle / questions.length) * 100;
+            progressionBarre.style.width = pourcentage + "%";
+
+            reponsesDiv.innerHTML = "";
+
+            // SOLUTION A : Créer les boutons de réponse
+            q.reponses.forEach(function(reponse, index) {
+                let bouton = document.createElement("button");
+                bouton.textContent = reponse;
+                bouton.classList.add("btn-reponse");
+
+                bouton.addEventListener("click", function() {
+                    verifierReponse(index);
+                });
+
+                reponsesDiv.appendChild(bouton);
+            });
+        }
+
+        // FONCTION : Vérifier la réponse
+        function verifierReponse(indexChoisi) {
+            if (aRepondu) return;
+            aRepondu = true;
+
+            let q = questions[questionActuelle];
+            let boutons = reponsesDiv.querySelectorAll(".btn-reponse");
+
+            // SOLUTION B : Vérifier si correct
+            if (indexChoisi === q.correcte) {
+                score = score + 1;
+                scoreElement.textContent = score;
+                boutons[indexChoisi].classList.add("correct");
+                feedback.textContent = "✅ Bonne réponse !";
+                feedback.classList.add("correct");
+            } else {
+                boutons[indexChoisi].classList.add("incorrect");
+                boutons[q.correcte].classList.add("correct");
+                feedback.textContent = "❌ Mauvaise réponse !";
+                feedback.classList.add("incorrect");
+            }
+
+            feedback.classList.add("visible");
+
+            boutons.forEach(function(btn) {
+                btn.disabled = true;
+            });
+
+            btnSuivant.classList.add("visible");
+        }
+
+        // FONCTION : Question suivante
+        btnSuivant.addEventListener("click", function() {
+            // SOLUTION C : Passer à la question suivante
+            questionActuelle = questionActuelle + 1;
+
+            if (questionActuelle >= questions.length) {
+                afficherResultat();
+            } else {
+                afficherQuestion();
+            }
+        });
+
+        // FONCTION : Afficher le résultat
+        function afficherResultat() {
+            zoneQuiz.style.display = "none";
+            resultat.classList.add("visible");
+            progressionBarre.style.width = "100%";
+
+            document.getElementById("resultat-score").textContent = `${score}/${questions.length}`;
+
+            // SOLUTION D : Message selon le score
+            let message = "";
+            let icone = "";
+
+            if (score >= 4) {
+                message = "Excellent ! Tu es un vrai gamer !";
+                icone = "🏆";
+            } else if (score >= 2) {
+                message = "Pas mal ! Tu connais tes classiques.";
+                icone = "👍";
+            } else {
+                message = "Continue à jouer pour t'améliorer !";
+                icone = "📚";
+            }
+
+            document.getElementById("resultat-message").textContent = message;
+            document.getElementById("resultat-icone").textContent = icone;
+        }
+
+        // FONCTION : Rejouer
+        btnRejouer.addEventListener("click", function() {
+            questionActuelle = 0;
+            score = 0;
+            scoreElement.textContent = "0";
+            resultat.classList.remove("visible");
+            zoneQuiz.style.display = "block";
+            afficherQuestion();
+        });
+
+        // Démarrer le quiz
+        afficherQuestion();
+    </script>
+
+</body>
+</html>

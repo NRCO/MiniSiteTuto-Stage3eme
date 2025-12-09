@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Découverte Tailwind CSS</title>
+    <!--
+        ===========================================
+        TAILWIND CSS VIA CDN
+        ===========================================
+
+        Cette ligne charge Tailwind directement depuis internet.
+        Pas besoin d'installer quoi que ce soit !
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <!--
+        ===========================================
+        DÉCOUVERTE DE TAILWIND CSS
+        ===========================================
+
+        Tailwind utilise des classes directement dans le HTML
+        au lieu d'écrire du CSS dans un fichier séparé.
+
+        Chaque classe fait UNE chose :
+        - bg-blue-500 = background bleu
+        - text-white = texte blanc
+        - p-4 = padding de 1rem
+        - rounded = coins arrondis
+
+        Combine les classes pour créer ton style !
+    -->
+
+    <!-- BARRE DE NAVIGATION -->
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">GameZone</h1>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-blue-200">Accueil</a>
+                <a href="#" class="hover:text-blue-200">Articles</a>
+                <a href="#" class="hover:text-blue-200">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENU PRINCIPAL -->
+    <main class="max-w-6xl mx-auto p-6">
+
+        <!-- SECTION HÉRO -->
+        <section class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl p-8 mb-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Bienvenue sur GameZone !</h2>
+            <p class="text-xl mb-6">Découvre l'actualité gaming avec Tailwind CSS</p>
+            <!--
+                EXERCICE 1 : Modifie ce bouton
+
+                Essaie de changer :
+                - bg-white → bg-yellow-400
+                - text-blue-600 → text-black
+                - hover:bg-gray-100 → hover:bg-yellow-300
+
+                Observe les changements !
+            -->
+            <a href="#" class="bg-white text-blue-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition">
+                Découvrir les articles
+            </a>
+        </section>
+
+        <!-- TITRE DE SECTION -->
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Articles Populaires</h2>
+
+        <!-- GRILLE D'ARTICLES -->
+        <!--
+            EXPLICATION DES CLASSES :
+            - grid = active CSS Grid
+            - grid-cols-1 = 1 colonne par défaut (mobile)
+            - md:grid-cols-2 = 2 colonnes sur écran moyen
+            - lg:grid-cols-3 = 3 colonnes sur grand écran
+            - gap-6 = espace de 1.5rem entre les cartes
+        -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- CARTE 1 -->
+            <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <div class="h-48 bg-gradient-to-br from-red-500 to-orange-500"></div>
+                <div class="p-5">
+                    <span class="bg-yellow-400 text-black text-sm px-3 py-1 rounded-full font-bold">HOT</span>
+                    <h3 class="text-xl font-bold mt-3 mb-2">GTA 6 : Tout ce qu'on sait</h3>
+                    <p class="text-gray-600 mb-4">Les dernières rumeurs et infos confirmées sur le jeu le plus attendu...</p>
+                    <a href="#" class="text-blue-500 font-bold hover:text-blue-700">Lire la suite →</a>
+                </div>
+            </article>
+
+            <!-- CARTE 2 -->
+            <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <div class="h-48 bg-gradient-to-br from-green-500 to-teal-500"></div>
+                <div class="p-5">
+                    <span class="bg-green-500 text-white text-sm px-3 py-1 rounded-full font-bold">GUIDE</span>
+                    <h3 class="text-xl font-bold mt-3 mb-2">Minecraft : 10 astuces pro</h3>
+                    <p class="text-gray-600 mb-4">Deviens un maître du crafting avec ces conseils d'experts...</p>
+                    <a href="#" class="text-blue-500 font-bold hover:text-blue-700">Lire la suite →</a>
+                </div>
+            </article>
+
+            <!-- CARTE 3 -->
+            <!--
+                EXERCICE 2 : Modifie les couleurs de cette carte
+
+                Remplace le dégradé par d'autres couleurs :
+                - from-blue-500 to-indigo-500 → from-pink-500 to-red-500
+                - Ou essaie : from-cyan-400 to-blue-600
+
+                Change aussi le badge :
+                - bg-blue-500 → bg-purple-500
+            -->
+            <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-500"></div>
+                <div class="p-5">
+                    <span class="bg-blue-500 text-white text-sm px-3 py-1 rounded-full font-bold">NEWS</span>
+                    <h3 class="text-xl font-bold mt-3 mb-2">PS6 : Date de sortie révélée ?</h3>
+                    <p class="text-gray-600 mb-4">Sony pourrait annoncer sa nouvelle console plus tôt que prévu...</p>
+                    <a href="#" class="text-blue-500 font-bold hover:text-blue-700">Lire la suite →</a>
+                </div>
+            </article>
+
+            <!--
+                ===========================================
+                EXERCICE 3 : Crée une 4ème carte !
+                ===========================================
+
+                Copie une des cartes ci-dessus et personnalise :
+                - Les couleurs du dégradé
+                - Le texte du badge
+                - Le titre et la description
+
+                Idées de couleurs :
+                - from-purple-500 to-pink-500 (violet/rose)
+                - from-yellow-400 to-orange-500 (jaune/orange)
+                - from-gray-700 to-gray-900 (sombre)
+            -->
+
+
+        </div>
+
+        <!-- SECTION NEWSLETTER -->
+        <section class="mt-12 bg-gray-800 text-white rounded-xl p-8 text-center">
+            <h3 class="text-2xl font-bold mb-4">Reste informé !</h3>
+            <p class="mb-6 text-gray-300">Inscris-toi pour recevoir les dernières news gaming</p>
+
+            <!--
+                EXERCICE 4 : Personnalise ce formulaire
+
+                Le bouton utilise actuellement bg-blue-500.
+                Essaie de le changer pour :
+                - bg-green-500 hover:bg-green-600 (vert)
+                - bg-gradient-to-r from-pink-500 to-purple-500 (dégradé)
+            -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                <input
+                    type="email"
+                    placeholder="Ton email..."
+                    class="px-4 py-3 rounded-lg text-gray-800 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                <button class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-bold transition whitespace-nowrap">
+                    S'inscrire
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION COMPARAISON CSS vs TAILWIND -->
+        <section class="mt-12 bg-white rounded-xl p-8">
+            <h3 class="text-2xl font-bold mb-6 text-center text-gray-800">CSS Classique vs Tailwind</h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- CSS CLASSIQUE -->
+                <div class="bg-gray-100 p-6 rounded-lg">
+                    <h4 class="font-bold mb-4 text-lg">CSS Classique</h4>
+                    <pre class="bg-gray-800 text-green-400 p-4 rounded text-sm overflow-x-auto"><code>&lt;div class="carte"&gt;
+  &lt;h3&gt;Titre&lt;/h3&gt;
+&lt;/div&gt;
+
+/* Dans style.css */
+.carte {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px...;
+}</code></pre>
+                </div>
+
+                <!-- TAILWIND -->
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="font-bold mb-4 text-lg text-blue-800">Avec Tailwind</h4>
+                    <pre class="bg-gray-800 text-green-400 p-4 rounded text-sm overflow-x-auto"><code>&lt;div class="bg-white
+            p-5
+            rounded-lg
+            shadow"&gt;
+  &lt;h3&gt;Titre&lt;/h3&gt;
+&lt;/div&gt;
+
+/* Pas de CSS à écrire ! */</code></pre>
+                </div>
+            </div>
+
+            <p class="text-center text-gray-600 mt-6">
+                Tailwind = plus rapide, tout est dans le HTML. Pas besoin de fichier CSS séparé !
+            </p>
+        </section>
+
+        <!-- AIDE-MÉMOIRE TAILWIND -->
+        <section class="mt-12 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl p-8">
+            <h3 class="text-2xl font-bold mb-6 text-center">Aide-mémoire Tailwind</h3>
+
+            <div class="grid md:grid-cols-3 gap-6 text-sm">
+                <!-- Couleurs -->
+                <div class="bg-white/20 p-4 rounded-lg">
+                    <h4 class="font-bold mb-3">Couleurs</h4>
+                    <ul class="space-y-1">
+                        <li><code class="bg-black/30 px-1 rounded">bg-red-500</code> Fond rouge</li>
+                        <li><code class="bg-black/30 px-1 rounded">text-blue-600</code> Texte bleu</li>
+                        <li><code class="bg-black/30 px-1 rounded">bg-gray-100</code> Fond gris clair</li>
+                    </ul>
+                </div>
+
+                <!-- Espacements -->
+                <div class="bg-white/20 p-4 rounded-lg">
+                    <h4 class="font-bold mb-3">Espacements</h4>
+                    <ul class="space-y-1">
+                        <li><code class="bg-black/30 px-1 rounded">p-4</code> Padding 1rem</li>
+                        <li><code class="bg-black/30 px-1 rounded">m-6</code> Margin 1.5rem</li>
+                        <li><code class="bg-black/30 px-1 rounded">px-4 py-2</code> Horizontal/Vertical</li>
+                    </ul>
+                </div>
+
+                <!-- Flexbox -->
+                <div class="bg-white/20 p-4 rounded-lg">
+                    <h4 class="font-bold mb-3">Flexbox</h4>
+                    <ul class="space-y-1">
+                        <li><code class="bg-black/30 px-1 rounded">flex</code> Active flex</li>
+                        <li><code class="bg-black/30 px-1 rounded">justify-center</code> Centre H</li>
+                        <li><code class="bg-black/30 px-1 rounded">items-center</code> Centre V</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIED DE PAGE -->
+    <footer class="bg-gray-900 text-white text-center p-6 mt-12">
+        <p>GameZone - Session 2 : Découverte de Tailwind CSS</p>
+        <p class="text-gray-400 text-sm mt-2">
+            Documentation : <a href="https://tailwindcss.com/docs" class="text-blue-400 hover:underline" target="_blank">tailwindcss.com/docs</a>
+        </p>
+    </footer>
+
+</body>
+</html>
